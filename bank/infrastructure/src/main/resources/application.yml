@@ -1,0 +1,31 @@
+
+
+
+---
+spring:
+  profiles: eureka-server
+  application:
+    name: eureka-server-bank
+
+---
+spring:
+  profiles: eureka-server-slave1
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: slave1
+  client:
+    service-url:
+      defaultZone: http://slave2:7002/eureka/
+---
+spring:
+  profiles: eureka-server-slave2
+server:
+  port: 7002
+eureka:
+  instance:
+    hostname: slave2
+  client:
+    service-url:
+      defaultZone: http://slave1:7001/eureka/
