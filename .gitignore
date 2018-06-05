@@ -34,6 +34,13 @@ cmake-build-release/
 
 # IntelliJ
 out/
+.idea/
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/scopes
+!.idea/fileColors.xml
+!.idea/encodings.xml
+
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

@@ -2,21 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_HEAP_SIZE" value="1400" />
-    <bytecodeTargetLevel>
-      <module name="app_main" target="1.8" />
-      <module name="app_test" target="1.8" />
-      <module name="bank_main" target="1.8" />
-      <module name="bank_test" target="1.8" />
-      <module name="eureka_main" target="1.8" />
-      <module name="eureka_test" target="1.8" />
-      <module name="sample_main" target="1.8" />
-      <module name="sample_test" target="1.8" />
-      <module name="ticket_main" target="1.8" />
-      <module name="ticket_test" target="1.8" />
-      <module name="trip-trip_main" target="1.8" />
-      <module name="trip-trip_test" target="1.8" />
-      <module name="trip_main" target="1.8" />
-      <module name="trip_test" target="1.8" />
-    </bytecodeTargetLevel>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
   </component>
 </project>

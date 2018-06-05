@@ -1,8 +1,8 @@
 rootProject.name = 'trip'
 
 include 'bank'
-include 'bank:bank-site', 'bank:bank-service', 'bank:infrastructure'
+include 'bank:site', 'bank:service', 'bank:infrastructure'
 include 'ticket'
-include 'ticket:ticket-site', 'ticket:ticket-service', 'ticket:infrastructure'
+include 'ticket:site', 'ticket:service', 'ticket:infrastructure'
 include 'trip'
-include 'trip:trip-site', 'trip:infrastructure'
+include 'trip:site', 'trip:infrastructure'

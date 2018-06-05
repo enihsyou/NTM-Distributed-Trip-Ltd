@@ -9,7 +9,7 @@ spring:
 
 ---
 spring:
-  profiles: eureka-server-slave1
+  profiles: slave1
 server:
   port: 7001
 eureka:
@@ -20,7 +20,7 @@ eureka:
       defaultZone: http://slave2:7002/eureka/
 ---
 spring:
-  profiles: eureka-server-slave2
+  profiles: slave2
 server:
   port: 7002
 eureka:
@@ -29,3 +29,15 @@ eureka:
   client:
     service-url:
       defaultZone: http://slave1:7001/eureka/
+
+---
+spring:
+  profiles: standalone
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
