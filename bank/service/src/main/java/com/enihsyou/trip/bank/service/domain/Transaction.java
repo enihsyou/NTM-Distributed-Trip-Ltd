@@ -3,10 +3,7 @@ package com.enihsyou.trip.bank.service.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -24,12 +21,17 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     /**
      * Short explanation of "Why does this transaction happened".
      */
-    private String explanation;
+    private String description;
 
     /**
-     * Time of the transaction occurrence.
+     * Time of the transaction created.
      */
-    private Instant eventTime;
+    private Instant createdTime;
+
+    /**
+     * Time of the transaction committed.
+     */
+    private Instant committedTime;
 
     @Embeddable
     static class BalanceRecord {
@@ -48,6 +50,14 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
          * Account balance after this transaction.
          */
         BigDecimal balanceAfter;
+    }
+
+    /**
+     * @return Whether this transaction committed.
+     */
+    @Transient
+    public boolean isCommitted(){
+        return null == committedTime;
     }
 }
 
