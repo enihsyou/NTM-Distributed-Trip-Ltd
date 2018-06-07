@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -43,5 +44,6 @@ public class Order extends MySQLAbstractPersistable<Long>{
      *
      * field is null if there is no transaction associated of this order.
      */
+    @OneToOne
     private Transaction transaction;
 }

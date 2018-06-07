@@ -27,7 +27,7 @@ public interface BankBaseEndpoint {
      * Use this endpoint to authenticate a user using password as credential.
      */
     @PostMapping("authorize")
-    ResponseEntity authorizeAccount(@RequestBody AccountAuthorizeDTO signupDTO);
+    ResponseEntity authorizeAccount(@RequestBody AccountAuthorizeDTO authorizeDTO);
 
     /**
      * Given a user's username, it's old password and a new password in plain text format,

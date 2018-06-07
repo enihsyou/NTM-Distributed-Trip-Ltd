@@ -59,6 +59,8 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+*.private.env.json
 ### Kotlin template
 # Compiled class file
 *.class

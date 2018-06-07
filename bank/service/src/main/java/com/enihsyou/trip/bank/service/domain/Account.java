@@ -21,7 +21,7 @@ public class Account extends MySQLAbstractPersistable<Long> {
 
     /**
      * Current password of this account.
-     *
+     * <p>
      * password is BCrypt hashed.
      */
     @OneToOne(mappedBy = "account")
@@ -38,6 +38,15 @@ public class Account extends MySQLAbstractPersistable<Long> {
      */
     private BigDecimal balance = BigDecimal.ZERO;
 
+    public Account setPassword(String password) {
+        AccountPassword newPassword = new AccountPassword();
+        newPassword.setPassword(password);
+        newPassword.setLastPassword(this.password);
+        newPassword.setAccount(this);
+
+        this.password = newPassword;
+        return this;
+    }
 }
 
 

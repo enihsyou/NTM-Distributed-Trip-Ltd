@@ -15,9 +15,7 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     @ManyToOne
     private Account account;
 
-    /**
-     * @see TransactionCategory
-     */
+    @Enumerated(EnumType.STRING)
     private TransactionCategory category;
 
     @Embedded
