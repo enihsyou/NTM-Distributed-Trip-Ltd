@@ -1,9 +1,10 @@
 package com.enihsyou.trip.bank.service.command.transaction;
 
-public class StartTransactionCommand extends TransactionCommand {
+public class DepositTransactionCommand extends TransactionCommand {
 
     @Override
     public void execute() {
 
     }
 }
+

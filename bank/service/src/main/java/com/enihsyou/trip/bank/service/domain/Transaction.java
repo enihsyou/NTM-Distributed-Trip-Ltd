@@ -15,6 +15,11 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     @ManyToOne
     private Account account;
 
+    /**
+     * @see TransactionCategory
+     */
+    private TransactionCategory category;
+
     @Embedded
     private BalanceRecord balanceRecord;
 
@@ -26,12 +31,7 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     /**
      * Time of the transaction created.
      */
-    private Instant createdTime;
-
-    /**
-     * Time of the transaction committed.
-     */
-    private Instant committedTime;
+    private Instant createdTime = Instant.now();
 
     @Embeddable
     static class BalanceRecord {
@@ -49,15 +49,8 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
         /**
          * Account balance after this transaction.
          */
-        BigDecimal balanceAfter;
-    }
-
-    /**
-     * @return Whether this transaction committed.
-     */
-    @Transient
-    public boolean isCommitted(){
-        return null == committedTime;
+        BigDecimal balanceAfter() {
+            return balanceBefore.add(amount);
+        }
     }
 }
-

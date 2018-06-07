@@ -9,6 +9,7 @@ import lombok.Getter;
 public abstract class TransactionCommand implements Command {
 
     protected Account account;
+
     protected Transaction transaction;
 }
 
