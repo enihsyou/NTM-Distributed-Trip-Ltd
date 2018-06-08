@@ -32,7 +32,10 @@ public class BankBaseController implements BankBaseEndpoint {
     @Override
     public ResponseEntity signupAccount(final AccountSignupDTO signupDTO) {
         Account account = bankService.signupAccount(signupDTO);
-        final AccountSignupVO vo = AccountSignupVO.builder().build();
+        final AccountSignupVO vo = AccountSignupVO.builder()
+            .username(account.getUsername())
+            .username(account.getUserId())
+            .build();
         return ResponseEntity.ok(vo);
     }
 

@@ -3,7 +3,13 @@
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_HEAP_SIZE" value="1400" />
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
+      <profile default="true" name="Default" enabled="true">
+        <option name="lombok.accessors.chain" value="true" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bank-site_main" target="1.8" />
+      <module name="bank-site_test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

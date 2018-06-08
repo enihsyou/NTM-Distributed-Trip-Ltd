@@ -3,6 +3,7 @@ package com.enihsyou.trip.bank.service.endpoint;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RequestMapping("order")
 public interface BankOrderEndpoint {
 

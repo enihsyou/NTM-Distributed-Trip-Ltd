@@ -6,6 +6,7 @@ import com.enihsyou.trip.bank.service.endpoint.value.dto.AccountSignupDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RequestMapping("username")
 public interface BankBaseEndpoint {
 

@@ -4,6 +4,7 @@ import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountDetailVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RequestMapping("transactions")
 public interface BankTransactionEndpoint {
 

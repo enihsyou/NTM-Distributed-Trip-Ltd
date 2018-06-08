@@ -1,8 +1,10 @@
 package com.enihsyou.trip.bank.service.endpoint;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@CrossOrigin
 public interface BankAccountEndpoint {
 
     /**
@@ -11,7 +13,7 @@ public interface BankAccountEndpoint {
      * User's transactions history is also included.
      */
     @GetMapping("user_info")
-    ResponseEntity accountDetail();
+    ResponseEntity accountUserInfo();
 
 }
 

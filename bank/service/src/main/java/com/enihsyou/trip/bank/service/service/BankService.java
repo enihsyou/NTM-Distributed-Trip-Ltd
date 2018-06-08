@@ -14,5 +14,7 @@ public interface BankService {
     Account authorizeAccount(AccountAuthorizeDTO authorizeDTO);
 
     Account changeAccountPassword(AccountChangePasswordDTO changePasswordDTO);
+
+    Account detailAccount(String userId);
 }
 

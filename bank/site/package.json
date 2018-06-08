@@ -5,13 +5,15 @@
   "author": "九条涼果 <s1131234@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build_scripts/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node build/build.js"
+    "build": "node build_scripts/build.js"
   },
   "dependencies": {
     "EventEmitter": "^1.0.0",
     "auth0-js": "^9.6.0",
+    "axios": "^0.18.0",
+    "element-ui": "^2.4.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -57,8 +59,6 @@
     "npm": ">= 3.0.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "> 1%", "last 2 versions", "not ie <= 8"
   ]
 }

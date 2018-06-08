@@ -3,12 +3,12 @@ package com.enihsyou.trip.bank.service.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-@Entity
+// @Entity
 @Getter
 @Setter
+@Deprecated
 public class AccountPassword extends MySQLAbstractPersistable<Long> {
 
     /**

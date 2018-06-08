@@ -12,7 +12,6 @@ spring:
         use_sql_comments: true
         format_sql: true
         globally_quoted_identifiers: true
-        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 
 ---
 spring:
@@ -25,6 +24,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/
+
+---
+spring:
+  profiles: standalone
+server:
+  port: 7101
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
 
 ---
 spring:

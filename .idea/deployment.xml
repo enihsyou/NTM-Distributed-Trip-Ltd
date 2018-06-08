@@ -1,4 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" stopOnFirstError="true" overwriteAll="false" createEmptyFolders="true" />
+  <component name="PublishConfigData" stopOnFirstError="true" overwriteAll="false" createEmptyFolders="true">
+    <serverData>
+      <paths name="123.206.214.219 hjy">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Aliyun 1G2M 47.100.124.23">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Aliyun 2G1M 47.100.117.174">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="CatC CA">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="CatC SF">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="USST sign.cdn">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="WSL">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="lirui">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="localhost CentOS 7">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="localhost CentOS 7 slave2">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="localhost CentOS 7 slave3">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/bank/service" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
 </project>

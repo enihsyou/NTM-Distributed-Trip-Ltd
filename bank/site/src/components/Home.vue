@@ -8,14 +8,33 @@
       <a @click="auth.login()">Log In</a>
       to continue.
     </h4>
+
+    <button
+        class="btn btn-primary btn-margin"
+        @click="test()">
+      Test Button
+    </button>
   </div>
 </template>
 
 <script>
+import '@/api/axiosConfig';
+import axios from 'axios';
+
+function test() {
+  axios.get('user_info',
+      {
+        headers: {'Authorization': `Bearer ${localStorage.getItem('access_token')}`},
+      });
+}
+
 export default {
   name: 'home',
-  props: ['auth', 'authenticated']
-}
+  props: ['auth', 'authenticated'],
+  methods: {
+    test,
+  },
+};
 </script>
 
 <style>

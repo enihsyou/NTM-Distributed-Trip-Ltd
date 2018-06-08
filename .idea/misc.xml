@@ -28,24 +28,6 @@
     <option name="moduleKind" value="umd" />
     <option name="sourceMap" value="true" />
   </component>
-  <component name="MongoConfiguration">
-    <option name="serverConfigurations">
-      <list>
-        <ServerConfiguration>
-          <option name="label" value="Localhost" />
-          <option name="serverUrls">
-            <list>
-              <option value="localhost:27017" />
-            </list>
-          </option>
-          <option name="sshTunnelingConfiguration">
-            <SshTunnelingConfiguration />
-          </option>
-        </ServerConfiguration>
-      </list>
-    </option>
-    <option name="shellPath" value="C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe" />
-  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
   <component name="PhpRuntimeConfiguration">
     <extensions>
@@ -158,5 +140,8 @@
   </component>
   <component name="Statistic">
     <option name="excludeDotArtifactDirectory" value="true" />
+  </component>
+  <component name="WebPackConfiguration">
+    <option name="path" value="$PROJECT_DIR$/bank/site/build_scripts/webpack.base.conf.js" />
   </component>
 </project>

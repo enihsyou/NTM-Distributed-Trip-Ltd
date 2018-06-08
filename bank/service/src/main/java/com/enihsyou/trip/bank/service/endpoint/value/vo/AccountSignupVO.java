@@ -6,5 +6,5 @@ import lombok.Builder;
 @Builder
 public class AccountSignupVO {
     String username;
-    boolean existence;
+    String userId;
 }
