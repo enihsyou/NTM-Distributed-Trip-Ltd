@@ -1,6 +1,6 @@
 package com.enihsyou.trip.bank.service.exception;
 
-public class WrongCredientialException extends BaseRestException{
+public class WrongCredientialException extends BaseRestException {
 
     @Override
     public String getMessage() {

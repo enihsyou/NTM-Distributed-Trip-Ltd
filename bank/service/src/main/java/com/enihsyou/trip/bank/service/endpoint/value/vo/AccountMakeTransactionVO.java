@@ -1,12 +1,12 @@
 package com.enihsyou.trip.bank.service.endpoint.value.vo;
 
-
 import lombok.Builder;
 
 @Builder
-public class AccountChangePasswordVO {
+public class AccountMakeTransactionVO {
 
     String username;
 
-    boolean existence;
+    Long account_id;
 }
+

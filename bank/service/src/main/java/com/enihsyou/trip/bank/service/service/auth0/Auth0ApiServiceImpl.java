@@ -4,6 +4,7 @@ import com.enihsyou.trip.bank.service.config.SecurityConfig.TokenDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -25,14 +26,38 @@ public class Auth0ApiServiceImpl implements Auth0ApiService {
 
     private String ACCESS_CODE;
 
+    @Autowired
     public Auth0ApiServiceImpl(@Qualifier("auth0RestTemplate") RestTemplate template,
-                               TokenDTO tokenDTO) {
+                               TokenDTO tokenDTO,
+                               @Autowired(required = false) @Qualifier("accessToken") String ACCESS_CODE) {
         this.template = template;
         this.tokenDTO = tokenDTO;
-        refreshCode();
+        final String reason;
+        final String accessToken;
+        if (ACCESS_CODE == null) {
+            accessToken = refreshCode();
+            reason = "Got Auth0 access token";
+        } else {
+            accessToken = ACCESS_CODE;
+            // Verify the token
+            // try {
+            //     final Algorithm algorithm = Algorithm.HMAC256(tokenDTO.getClient_secret());
+            //     final JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
+            //     verifier.verify(accessToken);
+            // } catch (UnsupportedEncodingException e) {
+            //     e.printStackTrace();
+            //     System.out.println("Test");
+            //     throw new RuntimeException(e.getCause());
+            // }catch (JWTVerificationException e){
+            //     e.printStackTrace();
+            // }
+            reason = "Use exist Auth0 access token";
+        }
+        this.ACCESS_CODE = "Bearer " + accessToken;
+        log.info("{}, token first 36 characters are: {}", reason, safeDisplayAccessToken());
     }
 
-    private void refreshCode() {
+    private String refreshCode() {
         URI uri = URI.create("https://enihsyou.auth0.com/oauth/token");
         final RequestEntity<TokenDTO> request = RequestEntity.post(uri)
             .contentType(MediaType.APPLICATION_JSON_UTF8).body(tokenDTO);
@@ -40,11 +65,12 @@ public class Auth0ApiServiceImpl implements Auth0ApiService {
         log.info("Try to get Auth0 access token, client id: {}", tokenDTO.getClient_id());
         final ObjectNode response = template.exchange(request, ObjectNode.class).getBody();
 
-        final String tokenType = response.get("token_type").textValue();
-        final String accessToken = response.get("access_token").textValue();
+        return response.get("access_token").textValue();
+    }
 
-        ACCESS_CODE = tokenType + ' ' + accessToken;
-        log.info("Got Auth0 access token: {}", accessToken);
+    private String safeDisplayAccessToken() {
+        //noinspection MagicNumber
+        return ACCESS_CODE.substring(0, 36);
     }
 
     @Override

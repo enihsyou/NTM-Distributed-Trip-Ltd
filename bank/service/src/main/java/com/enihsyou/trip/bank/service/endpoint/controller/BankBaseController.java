@@ -49,7 +49,7 @@ public class BankBaseController implements BankBaseEndpoint {
     @Override
     public ResponseEntity changeAccountPassword(final AccountChangePasswordDTO changePasswordDTO) {
         Account account = bankService.changeAccountPassword(changePasswordDTO);
-        final AccountChangePasswordVO vo  = AccountChangePasswordVO.builder().build();
+        final AccountChangePasswordVO vo = AccountChangePasswordVO.builder().build();
         return ResponseEntity.ok(vo);
     }
 }

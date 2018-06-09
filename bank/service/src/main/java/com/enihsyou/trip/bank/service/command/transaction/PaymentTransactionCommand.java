@@ -1,6 +1,6 @@
 package com.enihsyou.trip.bank.service.command.transaction;
 
-import com.enihsyou.trip.bank.service.domain.Account;
+import com.enihsyou.trip.bank.service.domain.Order;
 import com.enihsyou.trip.bank.service.domain.Transaction;
 import com.enihsyou.trip.bank.service.domain.Transaction.BalanceRecord;
 import com.enihsyou.trip.bank.service.domain.TransactionCategory;
@@ -8,13 +8,16 @@ import com.enihsyou.trip.bank.service.exception.IllegalAmountException;
 
 import java.math.BigDecimal;
 
-public class DepositTransactionCommand extends TransactionCommand {
+public class PaymentTransactionCommand extends TransactionCommand {
 
     private BigDecimal amount;
 
-    public DepositTransactionCommand(Account account, BigDecimal amount) {
-        super(account);
-        this.amount = amount;
+    private Long orderId;
+
+    public PaymentTransactionCommand(Order order) {
+        super(order.getAccount());
+        this.amount = order.getAmount();
+        this.orderId = order.getId();
     }
 
     @Override
@@ -30,7 +33,7 @@ public class DepositTransactionCommand extends TransactionCommand {
         transaction = new Transaction();
         transaction.setAccount(account);
         transaction.setCategory(TransactionCategory.Deposit);
-        transaction.setDescription(String.format("存入%s元", formatter.format(amount)));
+        transaction.setDescription(String.format("在订单%d消费%s元", orderId, formatter.format(amount)));
         transaction.setBalanceRecord(balanceRecord);
     }
 

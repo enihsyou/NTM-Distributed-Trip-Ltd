@@ -34,7 +34,7 @@ public class BankServiceTest {
 
     @Before
     public void setUp() {
-        bankService = new BankServiceImpl(mockAccountRepository, authService, new BCryptPasswordEncoder());
+        bankService = new BankServiceImpl(mockAccountRepository, orderRespository, authService, new BCryptPasswordEncoder());
     }
 
     @Test

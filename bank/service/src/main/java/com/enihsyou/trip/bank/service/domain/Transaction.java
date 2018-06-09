@@ -1,5 +1,6 @@
 package com.enihsyou.trip.bank.service.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,7 +33,8 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     private Instant createdTime = Instant.now();
 
     @Embeddable
-    static class BalanceRecord {
+    @Builder
+    public static class BalanceRecord {
 
         /**
          * Account balance before this transaction.
@@ -43,6 +45,14 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
          * The amount of this transaction.
          */
         BigDecimal amount;
+
+        public BalanceRecord() {}
+
+        // Bug of lombok, need this to avoid compile error
+        public BalanceRecord(BigDecimal balanceBefore, BigDecimal amount) {
+            this.balanceBefore = balanceBefore;
+            this.amount = amount;
+        }
 
         /**
          * Account balance after this transaction.

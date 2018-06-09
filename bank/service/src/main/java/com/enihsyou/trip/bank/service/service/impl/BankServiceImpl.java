@@ -1,13 +1,19 @@
 package com.enihsyou.trip.bank.service.service.impl;
 
+import com.enihsyou.trip.bank.service.command.transaction.PaymentTransactionCommand;
+import com.enihsyou.trip.bank.service.command.transaction.TransactionCommand;
 import com.enihsyou.trip.bank.service.domain.Account;
+import com.enihsyou.trip.bank.service.domain.Order;
+import com.enihsyou.trip.bank.service.domain.Transaction;
+import com.enihsyou.trip.bank.service.domain.TransactionCategory;
 import com.enihsyou.trip.bank.service.endpoint.value.dto.AccountAuthorizeDTO;
 import com.enihsyou.trip.bank.service.endpoint.value.dto.AccountChangePasswordDTO;
 import com.enihsyou.trip.bank.service.endpoint.value.dto.AccountSignupDTO;
-import com.enihsyou.trip.bank.service.exception.UsernameAlreadyExistException;
-import com.enihsyou.trip.bank.service.exception.UsernameNotFoundException;
-import com.enihsyou.trip.bank.service.exception.WrongCredientialException;
+import com.enihsyou.trip.bank.service.endpoint.value.dto.OrderCreateDTO;
+import com.enihsyou.trip.bank.service.exception.*;
+import com.enihsyou.trip.bank.service.helper.SecurityHelper;
 import com.enihsyou.trip.bank.service.repository.AccountRepository;
+import com.enihsyou.trip.bank.service.repository.OrderRepository;
 import com.enihsyou.trip.bank.service.service.BankService;
 import com.enihsyou.trip.bank.service.service.auth0.Auth0ApiService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,23 +22,33 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Collections;
 
 @Service
 public class BankServiceImpl implements BankService {
 
     private final AccountRepository accountRepository;
 
+    private final OrderRepository orderRepository;
+
     private final Auth0ApiService authService;
 
     private final PasswordEncoder passwordEncoder;
 
     public BankServiceImpl(AccountRepository accountRepository,
+                           OrderRepository orderRepository,
                            Auth0ApiService authService,
                            PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.orderRepository = orderRepository;
         this.authService = authService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    private Order obtainOrder(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
     }
 
     @Override
@@ -63,13 +79,13 @@ public class BankServiceImpl implements BankService {
         final String username = authorizeDTO.getUsername();
         final String password = authorizeDTO.getPassword();
 
-        final Account account = obtainAccount(username);
+        final Account account = obtainAccountByUsername(username);
         final boolean matches = isPasswordMatches(password, account);
         if (!matches) throw new WrongCredientialException();
 
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(username, password,
-                Arrays.asList(new SimpleGrantedAuthority("USER")));
+                Collections.singletonList(new SimpleGrantedAuthority("USER")));
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         return account;
@@ -80,7 +96,7 @@ public class BankServiceImpl implements BankService {
         final String oldPassword = changePasswordDTO.getOld_password();
         final String newPassword = changePasswordDTO.getNew_password();
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        final Account account = obtainAccount(username);
+        final Account account = obtainAccountByUsername(username);
         final boolean matches = isPasswordMatches(oldPassword, account);
         if (!matches) throw new WrongCredientialException();
 
@@ -88,10 +104,89 @@ public class BankServiceImpl implements BankService {
         return account;
     }
 
-    private Account obtainAccount(String username) {
+    @Override
+    public Account detailAccount() {
+        return obtainAccount();
+    }
+
+    @Override
+    public Transaction makeTransaction(TransactionCategory command, BigDecimal amount) {
+        final Account account = obtainAccount();
+        final TransactionCommand transactionCommand = command.toCommand(account, amount);
+        transactionCommand.execute();
+        return transactionCommand.getTransaction();
+    }
+
+    @Override
+    public Account detailTransaction() {
+        return obtainAccount();
+    }
+
+    @Override
+    public Transaction detailTransaction(Long transactionId) {
+        return obtainAccount().getTransactions()
+            .stream()
+            .filter(transaction -> transaction.getId().equals(transactionId))
+            .findAny()
+            .orElseThrow(TransactionNotExistException::new);
+    }
+
+    @Override
+    public Account detailOrder() {
+        return obtainAccount();
+    }
+
+    @Override
+    public Order detailOrder(Long orderId) {
+        return obtainAccount().getOrders()
+            .stream()
+            .filter(order -> order.getId().equals(orderId))
+            .findAny()
+            .orElseThrow(OrderNotExistException::new);
+    }
+
+    @Override
+    public Order createOrder(OrderCreateDTO createDTO) {
+        final Account account = obtainAccount();
+        final Order order = new Order();
+        order.setAccount(account);
+        order.setAmount(createDTO.getAmount());
+        order.setDescription(createDTO.getDescription());
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public void cancelOrder(Long orderId) {
+        final Order order = obtainOrder(orderId);
+        order.setCommittedTime(Instant.now());
+    }
+
+    @Override
+    public void confirmOrder(Long orderId) {
+        final Order order = obtainOrder(orderId);
+
+        TransactionCommand command = new PaymentTransactionCommand(order);
+        command.execute();
+        order.setTransaction(command.getTransaction());
+        order.setCommittedTime(Instant.now());
+    }
+
+    private Account obtainAccount() {
+        final String userId = SecurityHelper.userId();
+        return obtainAccountByUserId(userId);
+    }
+
+    private Account obtainAccountByUsername(String username) {
         return accountRepository.findByUsername(username)
             .orElseThrow(UsernameNotFoundException::new);
     }
+
+    private Account obtainAccountByUserId(String userId) {
+        return accountRepository.findByUserId(userId)
+            .orElseThrow(UsernameNotFoundException::new);
+    }
+
 
     private boolean isPasswordMatches(String password, Account account) {
         return passwordEncoder.matches(password, account.getPassword());

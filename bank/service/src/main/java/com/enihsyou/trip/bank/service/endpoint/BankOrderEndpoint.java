@@ -1,5 +1,6 @@
 package com.enihsyou.trip.bank.service.endpoint;
 
+import com.enihsyou.trip.bank.service.endpoint.value.dto.OrderCreateDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public interface BankOrderEndpoint {
      * Client use this endpoint to create an order.
      */
     @PostMapping
-    ResponseEntity createOrder();
+    ResponseEntity createOrder(@RequestBody OrderCreateDTO createDTO);
 
     @GetMapping("{orderId}")
     ResponseEntity detailOrder(@PathVariable("orderId") String orderId);

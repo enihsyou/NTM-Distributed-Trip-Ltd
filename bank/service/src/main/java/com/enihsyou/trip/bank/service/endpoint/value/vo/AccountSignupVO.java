@@ -5,6 +5,8 @@ import lombok.Builder;
 
 @Builder
 public class AccountSignupVO {
+
     String username;
+
     String userId;
 }

@@ -1,8 +1,10 @@
 package com.enihsyou.trip.bank.service.endpoint;
 
-import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountDetailVO;
+import com.enihsyou.trip.bank.service.domain.TransactionCategory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @CrossOrigin
 @RequestMapping("transactions")
@@ -12,7 +14,7 @@ public interface BankTransactionEndpoint {
      * Given the access token obtained during login, this endpoint returns a user's transaction history.
      */
     @GetMapping
-    ResponseEntity<AccountDetailVO> accountTransactionDetails();
+    ResponseEntity accountTransactionDetails();
 
     /**
      * Start a new transaction on this account.
@@ -23,7 +25,7 @@ public interface BankTransactionEndpoint {
      * Access token is obtained during login.
      */
     @PostMapping
-    ResponseEntity startTransaction(String command);
+    ResponseEntity startTransaction(@RequestParam TransactionCategory command, @RequestParam BigDecimal amount);
 
     /**
      * Fetch information of the transaction identified by {@code transactionId}.

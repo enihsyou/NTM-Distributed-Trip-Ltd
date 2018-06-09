@@ -1,10 +1,10 @@
 package com.enihsyou.trip.bank.service.exception;
 
-public class UsernameAlreadyExistException extends BaseRestException {
+public class BalanceNotEnoughException extends BaseRestException {
 
     @Override
     public String getMessage() {
-        return "用户名已存在";
+        return "余额不足";
     }
 }
 

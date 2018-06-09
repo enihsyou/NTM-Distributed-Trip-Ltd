@@ -5,6 +5,9 @@ import lombok.Builder;
 
 @Builder
 public class AccountAuthorizeVO {
+
     String username;
+
     boolean existence;
 }
+

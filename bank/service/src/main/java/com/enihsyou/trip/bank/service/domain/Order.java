@@ -12,7 +12,7 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
-public class Order extends MySQLAbstractPersistable<Long>{
+public class Order extends MySQLAbstractPersistable<Long> {
 
     @ManyToOne
     private Account account;
@@ -34,16 +34,28 @@ public class Order extends MySQLAbstractPersistable<Long>{
 
     /**
      * Time when this order finished.
-     *
+     * <p>
      * Whether is canceled or paid.
      */
     private Instant committedTime;
 
     /**
      * Order associated transaction.
-     *
+     * <p>
      * field is null if there is no transaction associated of this order.
      */
     @OneToOne
     private Transaction transaction;
+
+    public boolean isCanceled() {
+        return !isPending() && transaction == null;
+    }
+
+    public boolean isPending() {
+        return committedTime == null;
+    }
+
+    public boolean isPaid() {
+        return !isPending() && transaction != null;
+    }
 }

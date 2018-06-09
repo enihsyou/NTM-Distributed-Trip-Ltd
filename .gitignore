@@ -41,6 +41,7 @@ out/
 !.idea/fileColors.xml
 !.idea/encodings.xml
 !.idea/annotations
+!.idea/vcs.xml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

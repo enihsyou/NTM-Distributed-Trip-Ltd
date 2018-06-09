@@ -4,7 +4,9 @@ import lombok.Value;
 
 @Value
 public class AccountSignupDTO {
+
     String username;
+
     String password;
 }
 

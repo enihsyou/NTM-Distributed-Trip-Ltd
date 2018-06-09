@@ -8,7 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Collection;
 
 public enum AuthorityType {
-    ReadProfile("read:profile");
+    ReadProfile("read:profile"),
+    ReadTransaction("read:transaction"),
+    WriteTransaction("write:transaction");
 
     private String authority;
 
@@ -24,19 +26,19 @@ public enum AuthorityType {
         return authority;
     }
 
-    public GrantedAuthority getGrantedAuthority() {
-        return grantedAuthority;
-    }
-
     @Override
     public String toString() {
         return authority;
     }
 
-    public void shouldGrant(){
+    public void shouldGrant() {
         final Collection<? extends GrantedAuthority> authorities =
             SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (!authorities.contains(this.getGrantedAuthority()))
+        if (!authorities.contains(getGrantedAuthority()))
             throw new AuthorityNotGrantedException(this);
+    }
+
+    public GrantedAuthority getGrantedAuthority() {
+        return grantedAuthority;
     }
 }

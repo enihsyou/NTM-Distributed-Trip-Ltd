@@ -4,7 +4,7 @@ public class UsernameNotFoundException extends BaseRestException {
 
     @Override
     public String getMessage() {
-        return "错误的用户名密码组合" ;
+        return "错误的用户名密码组合";
     }
 }
 

@@ -29,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${auth0.client_secret}")
     private String clientSecret;
 
+    @Value("${auth0.access_token}")
+    private String accessToken;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -48,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenDTO tokenDTO() {return new TokenDTO(clientId, clientSecret, apiAudience);}
+
+    @Bean
+    public String accessToken() {return accessToken;}
 
     @lombok.Value
     public static class TokenDTO {
