@@ -1,31 +1,28 @@
 <template>
   <div id='app'>
     <div>
-      <el-button @click="startHacking">Start</el-button>
-    </div>
-    <div>
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">Auth0 - Vue</a>
+            <a class="navbar-brand" href="#">NTM银行</a>
 
             <router-link :to="'/'"
                          class="btn btn-primary btn-margin">
-              Home
+              主页
             </router-link>
 
             <button
                 class="btn btn-primary btn-margin"
                 v-if="!authenticated"
                 @click="login()">
-              Log In
+              登录
             </button>
 
             <button
                 class="btn btn-primary btn-margin"
                 v-if="authenticated"
                 @click="logout()">
-              Log Out
+              登出
             </button>
 
           </div>
@@ -47,14 +44,15 @@ import AuthService from './auth/AuthService';
 
 const auth = new AuthService();
 
-const {login, logout, authenticated, authNotifier} = auth;
+let {login, logout, authenticated, authNotifier} = auth;
 
 export default {
   name: 'app',
   data() {
     authNotifier.on('authChange', authState => {
-      this.authenticated = authState.authenticated;
+      authenticated = authState.authenticated;
     });
+
     return {
       auth,
       authenticated,
@@ -63,14 +61,6 @@ export default {
   methods: {
     login,
     logout,
-    startHacking() {
-      this.$notify({
-        title: 'It works!',
-        type: 'success',
-        message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
-        duration: 5000,
-      });
-    },
   },
 };
 </script>

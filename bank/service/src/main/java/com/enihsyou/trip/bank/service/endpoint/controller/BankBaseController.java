@@ -11,6 +11,8 @@ import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountExistenceVO;
 import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountSignupVO;
 import com.enihsyou.trip.bank.service.service.BankService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +23,7 @@ public class BankBaseController implements BankBaseEndpoint {
     public BankBaseController(final BankService bankService) {this.bankService = bankService;}
 
     @Override
-    public ResponseEntity accountExistence(final String testUsername) {
+    public ResponseEntity accountExistence(@RequestParam("test") String testUsername) {
         boolean existence = bankService.accountExistence(testUsername);
         final AccountExistenceVO vo = AccountExistenceVO.builder()
             .username(testUsername)
@@ -30,24 +32,24 @@ public class BankBaseController implements BankBaseEndpoint {
     }
 
     @Override
-    public ResponseEntity signupAccount(final AccountSignupDTO signupDTO) {
+    public ResponseEntity signupAccount(@RequestBody AccountSignupDTO signupDTO) {
         Account account = bankService.signupAccount(signupDTO);
         final AccountSignupVO vo = AccountSignupVO.builder()
             .username(account.getUsername())
-            .username(account.getUserId())
+            .userId(account.getUserId())
             .build();
         return ResponseEntity.ok(vo);
     }
 
     @Override
-    public ResponseEntity authorizeAccount(final AccountAuthorizeDTO authorizeDTO) {
+    public ResponseEntity authorizeAccount(@RequestBody AccountAuthorizeDTO authorizeDTO) {
         Account account = bankService.authorizeAccount(authorizeDTO);
         final AccountAuthorizeVO vo = AccountAuthorizeVO.builder().build();
         return ResponseEntity.ok(vo);
     }
 
     @Override
-    public ResponseEntity changeAccountPassword(final AccountChangePasswordDTO changePasswordDTO) {
+    public ResponseEntity changeAccountPassword(@RequestBody AccountChangePasswordDTO changePasswordDTO) {
         Account account = bankService.changeAccountPassword(changePasswordDTO);
         final AccountChangePasswordVO vo = AccountChangePasswordVO.builder().build();
         return ResponseEntity.ok(vo);

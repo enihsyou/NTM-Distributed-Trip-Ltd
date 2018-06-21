@@ -14,6 +14,7 @@ import com.enihsyou.trip.bank.service.exception.*;
 import com.enihsyou.trip.bank.service.helper.SecurityHelper;
 import com.enihsyou.trip.bank.service.repository.AccountRepository;
 import com.enihsyou.trip.bank.service.repository.OrderRepository;
+import com.enihsyou.trip.bank.service.repository.TransactionRepository;
 import com.enihsyou.trip.bank.service.service.BankService;
 import com.enihsyou.trip.bank.service.service.auth0.Auth0ApiService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,27 +34,22 @@ public class BankServiceImpl implements BankService {
 
     private final OrderRepository orderRepository;
 
+    private final TransactionRepository transactionRepository;
+
     private final Auth0ApiService authService;
 
     private final PasswordEncoder passwordEncoder;
 
     public BankServiceImpl(AccountRepository accountRepository,
                            OrderRepository orderRepository,
+                           TransactionRepository transactionRepository,
                            Auth0ApiService authService,
                            PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.orderRepository = orderRepository;
+        this.transactionRepository = transactionRepository;
         this.authService = authService;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    private Order obtainOrder(Long orderId) {
-        return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
-    }
-
-    @Override
-    public boolean accountExistence(final String username) {
-        return accountRepository.existsByUsername(username);
     }
 
     @Override
@@ -75,6 +71,11 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
+    public boolean accountExistence(final String username) {
+        return accountRepository.existsByUsername(username);
+    }
+
+    @Override
     public Account authorizeAccount(final AccountAuthorizeDTO authorizeDTO) {
         final String username = authorizeDTO.getUsername();
         final String password = authorizeDTO.getPassword();
@@ -89,6 +90,15 @@ public class BankServiceImpl implements BankService {
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         return account;
+    }
+
+    private Account obtainAccountByUsername(String username) {
+        return accountRepository.findByUsername(username)
+            .orElseThrow(UsernameNotFoundException::new);
+    }
+
+    private boolean isPasswordMatches(String password, Account account) {
+        return passwordEncoder.matches(password, account.getPassword());
     }
 
     @Override
@@ -109,12 +119,25 @@ public class BankServiceImpl implements BankService {
         return obtainAccount();
     }
 
+    private Account obtainAccount() {
+        final String userId = SecurityHelper.userId();
+        return obtainAccountByUserId(userId);
+    }
+
+    private Account obtainAccountByUserId(String userId) {
+        return accountRepository.findByUserId(userId)
+            .orElseThrow(UsernameNotFoundException::new);
+    }
+
     @Override
     public Transaction makeTransaction(TransactionCategory command, BigDecimal amount) {
         final Account account = obtainAccount();
         final TransactionCommand transactionCommand = command.toCommand(account, amount);
         transactionCommand.execute();
-        return transactionCommand.getTransaction();
+
+        final Transaction transaction = transactionCommand.getTransaction();
+        transactionRepository.save(transaction);
+        return transaction;
     }
 
     @Override
@@ -152,14 +175,18 @@ public class BankServiceImpl implements BankService {
         order.setAccount(account);
         order.setAmount(createDTO.getAmount());
         order.setDescription(createDTO.getDescription());
-
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return order;
     }
 
     @Override
     public void cancelOrder(Long orderId) {
         final Order order = obtainOrder(orderId);
         order.setCommittedTime(Instant.now());
+    }
+
+    private Order obtainOrder(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
     }
 
     @Override
@@ -170,26 +197,6 @@ public class BankServiceImpl implements BankService {
         command.execute();
         order.setTransaction(command.getTransaction());
         order.setCommittedTime(Instant.now());
-    }
-
-    private Account obtainAccount() {
-        final String userId = SecurityHelper.userId();
-        return obtainAccountByUserId(userId);
-    }
-
-    private Account obtainAccountByUsername(String username) {
-        return accountRepository.findByUsername(username)
-            .orElseThrow(UsernameNotFoundException::new);
-    }
-
-    private Account obtainAccountByUserId(String userId) {
-        return accountRepository.findByUserId(userId)
-            .orElseThrow(UsernameNotFoundException::new);
-    }
-
-
-    private boolean isPasswordMatches(String password, Account account) {
-        return passwordEncoder.matches(password, account.getPassword());
     }
 }
 

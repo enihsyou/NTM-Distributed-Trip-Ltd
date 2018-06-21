@@ -1,8 +1,9 @@
 package com.enihsyou.trip.bank.service.service;
 
 import com.enihsyou.trip.bank.service.domain.Account;
-import com.enihsyou.trip.bank.service.endpoint.value.dto.AccountSignupDTO;
 import com.enihsyou.trip.bank.service.repository.AccountRepository;
+import com.enihsyou.trip.bank.service.repository.OrderRepository;
+import com.enihsyou.trip.bank.service.repository.TransactionRepository;
 import com.enihsyou.trip.bank.service.service.auth0.Auth0ApiService;
 import com.enihsyou.trip.bank.service.service.auth0.Auth0ApiServiceImpl;
 import com.enihsyou.trip.bank.service.service.impl.BankServiceImpl;
@@ -25,16 +26,24 @@ import static org.mockito.BDDMockito.given;
 public class BankServiceTest {
 
     @MockBean
-    private AccountRepository mockAccountRepository;
+    private AccountRepository     mockAccountRepository;
+
+    @MockBean
+    private OrderRepository       orderRepository;
+
+    @MockBean
+    private TransactionRepository transactionRepository;
 
     @Autowired
-    private Auth0ApiService authService;
+    private Auth0ApiService       authService;
 
-    private BankService bankService;
+    private BankService           bankService;
 
     @Before
     public void setUp() {
-        bankService = new BankServiceImpl(mockAccountRepository, orderRespository, authService, new BCryptPasswordEncoder());
+        bankService =
+            new BankServiceImpl(mockAccountRepository, orderRepository, transactionRepository, authService,
+                new BCryptPasswordEncoder());
     }
 
     @Test
@@ -56,7 +65,6 @@ public class BankServiceTest {
     public void signupAccount() {
         final String testUsername = "111@a.com";
         final String testPassword = "111";
-        AccountSignupDTO signupDTO = new AccountSignupDTO(testUsername, testPassword);
     }
 
     @Test

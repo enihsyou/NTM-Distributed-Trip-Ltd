@@ -19,11 +19,9 @@ public class WithdrawTransactionCommand extends TransactionCommand {
 
     @Override
     public void execute() {
-        final BigDecimal probe = account.getBalance().subtract(amount);
-        final BalanceRecord balanceRecord = BalanceRecord.builder()
-            .balanceBefore(account.getBalance())
-            .amount(amount)
-            .build();
+        final BigDecimal balanceBefore = account.getBalance();
+        final BigDecimal probe = balanceBefore.subtract(amount);
+        final BalanceRecord balanceRecord = new BalanceRecord(balanceBefore, amount.negate());
         if (probe.signum() >= 0) {
             account.setBalance(probe);
         } else throw new BalanceNotEnoughException();

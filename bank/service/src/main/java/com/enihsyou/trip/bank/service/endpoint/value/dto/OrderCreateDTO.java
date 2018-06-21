@@ -1,10 +1,10 @@
 package com.enihsyou.trip.bank.service.endpoint.value.dto;
 
-import lombok.Value;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Value
+@Data
 public class OrderCreateDTO {
 
     String description;

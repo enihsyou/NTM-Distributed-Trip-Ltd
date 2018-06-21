@@ -1,6 +1,6 @@
 package com.enihsyou.trip.bank.service.domain;
 
-import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +33,7 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
     private Instant createdTime = Instant.now();
 
     @Embeddable
-    @Builder
+    @Data
     public static class BalanceRecord {
 
         /**
@@ -54,11 +54,13 @@ public class Transaction extends MySQLAbstractPersistable<Long> {
             this.amount = amount;
         }
 
+        // Getters and Setters
+
         /**
          * Account balance after this transaction.
          */
-        BigDecimal balanceAfter() {
-            return balanceBefore.add(amount);
+        @Transient
+        public BigDecimal getBalanceAfter() { return balanceBefore.add(amount);
         }
     }
 }

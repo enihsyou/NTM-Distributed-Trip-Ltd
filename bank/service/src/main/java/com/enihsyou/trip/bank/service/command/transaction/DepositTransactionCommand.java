@@ -20,10 +20,7 @@ public class DepositTransactionCommand extends TransactionCommand {
     @Override
     public void execute() {
         if (amount.signum() < 0) throw new IllegalAmountException();
-        final BalanceRecord balanceRecord = BalanceRecord.builder()
-            .balanceBefore(account.getBalance())
-            .amount(amount)
-            .build();
+        final BalanceRecord balanceRecord = new BalanceRecord(account.getBalance(), amount);
 
         account.setBalance(account.getBalance().add(amount));
 

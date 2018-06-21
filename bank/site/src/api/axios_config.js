@@ -6,9 +6,6 @@ axios.defaults.baseURL = 'http://localhost:7101';
 // 响应时间
 axios.defaults.timeout = 3 * 1000;
 
-// 配置请求头
-// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-
 // 配置cookie
 axios.defaults.withCredentials = false;
 

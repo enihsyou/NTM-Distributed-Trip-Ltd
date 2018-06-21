@@ -34,14 +34,6 @@ cmake-build-release/
 
 # IntelliJ
 out/
-.idea/
-!.idea/codeStyles
-!.idea/inspectionProfiles
-!.idea/scopes
-!.idea/fileColors.xml
-!.idea/encodings.xml
-!.idea/annotations
-!.idea/vcs.xml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -62,6 +54,16 @@ fabric.properties
 .idea/httpRequests
 
 *.private.env.json
+
+.idea
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/scopes
+!.idea/fileColors.xml
+!.idea/encodings.xml
+!.idea/annotations
+!.idea/vcs.xml
+
 ### Kotlin template
 # Compiled class file
 *.class
@@ -88,7 +90,7 @@ fabric.properties
 hs_err_pid*
 ### Gradle template
 .gradle
-/build/
+build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

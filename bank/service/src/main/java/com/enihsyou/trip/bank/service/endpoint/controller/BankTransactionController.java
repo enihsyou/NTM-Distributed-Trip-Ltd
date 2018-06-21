@@ -4,10 +4,8 @@ import com.enihsyou.trip.bank.service.domain.Account;
 import com.enihsyou.trip.bank.service.domain.Transaction;
 import com.enihsyou.trip.bank.service.domain.TransactionCategory;
 import com.enihsyou.trip.bank.service.endpoint.BankTransactionEndpoint;
-import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountDetailTransactionVO;
-import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountMakeTransactionVO;
-import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountTransactionVO;
-import com.enihsyou.trip.bank.service.enums.AuthorityType;
+import com.enihsyou.trip.bank.service.endpoint.value.vo.AccountDetailVO;
+import com.enihsyou.trip.bank.service.endpoint.value.vo.TransactionVO;
 import com.enihsyou.trip.bank.service.service.BankService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,23 +21,24 @@ public class BankTransactionController implements BankTransactionEndpoint {
 
     @Override
     public ResponseEntity accountTransactionDetails() {
-        AuthorityType.ReadTransaction.shouldGrant();
+        // AuthorityType.ReadTransaction.shouldGrant();
         Account account = bankService.detailTransaction();
-        return ResponseEntity.ok(AccountTransactionVO.builder().build());
+        final AccountDetailVO body = AccountDetailVO.parse(account);
+        return ResponseEntity.ok(body);
     }
 
     @Override
     public ResponseEntity startTransaction(TransactionCategory command, BigDecimal amount) {
-        AuthorityType.WriteTransaction.shouldGrant();
+        // AuthorityType.WriteTransaction.shouldGrant();
         Transaction transaction = bankService.makeTransaction(command, amount);
 
-        return ResponseEntity.ok(AccountMakeTransactionVO.builder().build());
+        return ResponseEntity.ok(TransactionVO.parse(transaction));
     }
 
     @Override
     public ResponseEntity detailTransaction(final String transactionId) {
-        AuthorityType.ReadTransaction.shouldGrant();
+        //AuthorityType.ReadTransaction.shouldGrant();
         Transaction transaction = bankService.detailTransaction(Long.parseLong(transactionId));
-        return ResponseEntity.ok(AccountDetailTransactionVO.builder().build());
+        return ResponseEntity.ok(TransactionVO.parse(transaction));
     }
 }

@@ -1,8 +1,8 @@
 package com.enihsyou.trip.bank.service.endpoint.value.dto;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class AccountSignupDTO {
 
     String username;

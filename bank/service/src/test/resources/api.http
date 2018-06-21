@@ -1,0 +1,28 @@
+POST {{host}}/username/signup
+Content-Type: application/json
+
+{
+  "username": "aaa@a.com",
+  "password": "aaa"
+}
+###
+GET {{host}}/username/challenge?test=aaa@a.com
+
+###
+GET {{host}}/user_info
+Authorization: Bearer {{token}}
+###
+
+GET {{host}}/transactions
+Authorization: Bearer {{token}}
+
+###
+
+POST {{host}}/transactions?command=Deposit&amount=100
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/transactions?command=Withdraw&amount=30
+Authorization: Bearer {{token}}
+
+###

@@ -1,28 +1,34 @@
-import Callback from '@/components/Callback';
-import Home from '@/components/Home';
-import Vue from 'vue';
-import Router from 'vue-router';
+import Callback from '@/components/Callback'
+import Home from '@/components/Home'
+import Vue from 'vue'
+import Router from 'vue-router'
 
-Vue.use(Router);
+// noinspection JSUnresolvedFunction
+Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode  : 'history',
   routes: [
     {
-      path: '/home',
-      name: 'Home',
+      path     : '/',
+      name     : '主页',
       component: Home,
     },
     {
-      path: '/callback',
-      name: 'Callback',
+      path     : '/dashboard',
+      name     : '控制台',
+      component: Home,
+    },
+    {
+      path     : '/callback',
+      name     : '登录成功',
       component: Callback,
     },
     {
-      path: '*',
-      redirect: '/home',
+      path    : '*',
+      redirect: '/',
     },
   ],
-});
+})
 
-export default router;
+export default router

@@ -14,6 +14,5 @@ public interface BankAccountEndpoint {
      */
     @GetMapping("user_info")
     ResponseEntity accountUserInfo();
-
 }
 
